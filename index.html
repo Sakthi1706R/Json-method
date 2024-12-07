@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Example</title>
+</head>
+<body>
+
+    <h2>Send and Receive JSON Data</h2>
+
+    <button id="sendData">Send Data</button>
+    <button id="getData">Get Data</button>
+
+    <div id="response"></div>
+
+    <script>
+        // Function to send data as JSON
+        function sendData() {
+            const data = {
+                name: "John Doe",
+                age: 30
+            };
+
+            fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log("Data Sent: ", json);
+                document.getElementById('response').innerText = JSON.stringify(json, null, 2);
+            })
+            .catch(error => console.error('Error sending data:', error));
+        }
+
+        // Function to receive data as JSON
+        function getData() {
+            fetch('https://jsonplaceholder.typicode.com/posts/1')
+                .then(response => response.json())
+                .then(json => {
+                    console.log("Received Data: ", json);
+                    document.getElementById('response').innerText = JSON.stringify(json, null, 2);
+                })
+                .catch(error => console.error('Error receiving data:', error));
+        }
+
+        // Event listeners for the buttons
+        document.getElementById('sendData').addEventListener('click', sendData);
+        document.getElementById('getData').addEventListener('click', getData);
+    </script>
+
+</body>
+</html>
